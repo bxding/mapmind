@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+.git
+.cache
+node_modules
+.svelte-kit
+build
+important
+.idea
+
+# Local editor and assistant files
+.cursor/
+.vscode/
+.claude/
+.codex/
+.agents/

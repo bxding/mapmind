@@ -1,0 +1,39 @@
+:root {
+	--ink: #10141b;
+	--panel: rgba(18, 24, 32, 0.88);
+	--panel-border: rgba(212, 245, 66, 0.18);
+	--lime: #d4f542;
+	--lime-dim: #a9c436;
+	--paper: #e8eadf;
+	--muted: #8b9383;
+	--danger: #ff6b6b;
+	--create: #4ade80;
+	--modify: #fbbf24;
+	--mono: 'IBM Plex Mono', ui-monospace, monospace;
+	--sans: 'IBM Plex Sans', system-ui, sans-serif;
+	--display: 'Fraunces', Georgia, serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	height: 100%;
+	background: var(--ink);
+	color: var(--paper);
+	font-family: var(--sans);
+}
+
+button,
+input,
+textarea {
+	font-family: inherit;
+}
+
+.leaflet-container {
+	background: #ddd;
+	font-family: var(--sans);
+}

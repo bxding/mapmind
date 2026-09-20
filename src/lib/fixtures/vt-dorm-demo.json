@@ -1,0 +1,68 @@
+{
+	"question": "Which dorm at Virginia Tech has the most cafés within 800 m?",
+	"events": [
+		{ "type": "status", "message": "Fixture trace — set OPENWEBUI_API_KEY to run the real agent." },
+		{ "type": "tool_call", "name": "findPlace", "args": { "name": "Virginia Tech, Blacksburg" } },
+		{
+			"type": "tool_result",
+			"name": "findPlace",
+			"result": { "displayName": "Virginia Tech", "areaId": 3600117516, "osmType": "relation" }
+		},
+		{ "type": "tool_call", "name": "checkTag", "args": { "key": "amenity", "value": "cafe" } },
+		{
+			"type": "tool_result",
+			"name": "checkTag",
+			"result": { "count": 1400000, "ok": true }
+		},
+		{
+			"type": "tool_call",
+			"name": "checkTag",
+			"args": { "key": "building", "value": "dormitory" }
+		},
+		{
+			"type": "tool_result",
+			"name": "checkTag",
+			"result": { "count": 80000, "ok": true }
+		},
+		{
+			"type": "plan",
+			"plan": {
+				"scope": { "kind": "place", "name": "Blacksburg", "areaId": 3600117516 },
+				"sets": [
+					{
+						"name": "dorms",
+						"types": ["nwr"],
+						"filters": [{ "key": "building", "op": "=", "value": "dormitory" }],
+						"within": { "kind": "scope" }
+					},
+					{
+						"name": "cafes",
+						"types": ["nwr"],
+						"filters": [{ "key": "amenity", "op": "=", "value": "cafe" }],
+						"within": { "kind": "scope" }
+					}
+				],
+				"output": { "mode": "center", "limit": 200 }
+			}
+		},
+		{
+			"type": "explain",
+			"text": "Find nwr (building=dormitory); then nwr (amenity=cafe) in Blacksburg."
+		},
+		{
+			"type": "oql",
+			"oql": "[out:json][timeout:25];\narea(3600117516)->.searchArea;\n(\n  nwr[\"building\"=\"dormitory\"](area.searchArea);\n)->.dorms;\n(\n  nwr[\"amenity\"=\"cafe\"](area.searchArea);\n)->.cafes;\n.cafes out center 200;"
+		},
+		{ "type": "tool_call", "name": "compileAndRun", "args": { "probe": "out count;" } },
+		{
+			"type": "tool_result",
+			"name": "compileAndRun",
+			"result": { "count": 18, "sample": 18 }
+		},
+		{
+			"type": "answer",
+			"text": "Fixture: after ranking cafés within 800 m of each dorm, Pritchard Hall is the usual winner on campus. Run the real agent (OPENWEBUI_API_KEY) for live counts."
+		},
+		{ "type": "done" }
+	]
+}

@@ -1,0 +1,19 @@
+services:
+  mapmind:
+    image: "${MAPMIND_IMAGE:-ghcr.io/bxding/mapmind:latest}"
+    build: .
+    init: true
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: "3000"
+      # Set ORIGIN in .env to the public URL when deploying behind a proxy.
+      ORIGIN: "${ORIGIN:-http://localhost:3000}"
+      OPENWEBUI_BASE_URL: "${OPENWEBUI_BASE_URL:?Set OPENWEBUI_BASE_URL in .env before starting MapMind}"
+      OPENWEBUI_MODEL: "${OPENWEBUI_MODEL:-qwen3.5:122b-a10b}"
+      OPENWEBUI_API_KEY: "${OPENWEBUI_API_KEY:?Set OPENWEBUI_API_KEY in .env before starting MapMind}"
+      OVERPASS_URLS: "${OVERPASS_URLS:-https://overpass-api.de/api/interpreter,https://overpass.private.coffee/api/interpreter}"
